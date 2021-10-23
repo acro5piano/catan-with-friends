@@ -7,6 +7,6 @@ export interface ICard {
 
 export interface IPlayer {
   id: string
-  name: string
+  nickname: string
   cards: ICard[]
 }
