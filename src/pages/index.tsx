@@ -5,11 +5,12 @@ import { useStore } from 'src/store'
 import { useMount } from 'ahooks'
 
 const Home: NextPage = () => {
-  const init = useStore((store) => store.init)
+  const initGame = useStore((store) => store.initGame)
+  const initSubscription = useStore((store) => store.initSubscription)
   const players = useStore((store) => store.players)
   const addCard = useStore((store) => store.addCard)
 
-  useMount(init)
+  useMount(initSubscription)
 
   return (
     <div className={'h-screen bg-gray-100'}>
@@ -25,6 +26,7 @@ const Home: NextPage = () => {
         ))}
 
         <button onClick={() => addCard('BRICK')}>Add BRICK</button>
+        <button onClick={() => initGame(3)}>Init game(3)</button>
       </main>
     </div>
   )

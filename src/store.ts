@@ -2,37 +2,49 @@ import create from 'zustand'
 import produce from 'immer'
 import { nanoid } from 'nanoid'
 import { IPlayer, ICardType } from 'src/types'
+import { db } from 'src/infra/firebase'
+import { doc, setDoc, onSnapshot } from 'firebase/firestore'
 
 interface AppState {
+  // state
   playerId: string
   players: IPlayer[]
-  init(): void
+
+  // actions
+  initSubscription(): void
+  initGame(num: 3 | 4): void
   addCard(type: ICardType): void
+  syncFireStore(): Promise<void>
 }
 
-export const useStore = create<AppState>((set) => ({
+const gameId = 'test'
+
+export const useStore = create<AppState>((set, get) => ({
   playerId: '',
   players: [],
-  init() {
-    set({ playerId: nanoid() })
-    set({
-      players: [
-        {
-          id: 'test',
-          name: 'Daido',
-          cards: [
-            {
-              id: '1',
-              type: 'WOOL' as const,
-            },
-            {
-              id: '2',
-              type: 'ORE' as const,
-            },
-          ],
-        },
-      ],
+  initSubscription() {
+    onSnapshot(doc(db, 'games', gameId), (doc) => {
+      const remoteState = doc.data()
+      if (remoteState) {
+        set({ players: remoteState['players'] })
+      }
     })
+  },
+  async syncFireStore() {
+    const state = get()
+    await setDoc(doc(db, 'games', gameId), {
+      id: gameId,
+      players: state.players,
+    })
+  },
+  initGame(playerNum: 3 | 4) {
+    const players = Array.from({ length: playerNum }, () => ({
+      id: nanoid(),
+      name: nanoid(),
+      cards: [],
+    }))
+    set({ players })
+    get().syncFireStore()
   },
   addCard(type) {
     set(
@@ -43,5 +55,6 @@ export const useStore = create<AppState>((set) => ({
         })
       }),
     )
+    get().syncFireStore()
   },
 }))
