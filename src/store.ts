@@ -74,6 +74,7 @@ export const useStore = create<AppState>((set, get) => ({
       id: nanoid(),
       nickname: oldPlayers[i]?.nickname || `Player ${i + 1}`, // `
       cards: [],
+      selectedCardIds: [],
       developmentCards: [],
     }))
     const developmentCardTypes = shuffle([
@@ -116,6 +117,15 @@ export const useStore = create<AppState>((set, get) => ({
         }
       }),
     )
+    set(
+      produce((state: AppState) => {
+        const me = state.players.find((p) => p.id === get().playerId)
+        if (me) {
+          me.selectedCardIds = state.selectedCardIds
+        }
+      }),
+    )
+    get().syncFireStore()
   },
   useSelectedCards() {
     set(

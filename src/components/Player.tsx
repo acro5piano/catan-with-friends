@@ -82,7 +82,7 @@ export const Player = ({ player }: { player: IPlayer }) => {
                 selectedCardIds.includes(card.id) && 'border-4 border-red-700',
               )}
             >
-              {isMe ? (
+              {isMe || player.selectedCardIds.includes(card.id) ? (
                 <img src={`/images/${card.type}.png`} className="rounded" />
               ) : (
                 <img src={`/images/CARD_BACK.png`} className="rounded" />

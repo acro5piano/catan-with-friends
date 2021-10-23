@@ -12,6 +12,7 @@ export interface IPlayer {
   nickname: string
   cards: ICard[]
   developmentCards: IDevelopmentCard[]
+  selectedCardIds: string[]
 }
 
 export interface IDevelopmentCard {
