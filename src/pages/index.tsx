@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Player } from 'src/components/Player'
-import { ICardType } from 'src/types'
 import { useStore } from 'src/store'
 import { useMount } from 'ahooks'
 
@@ -11,10 +10,6 @@ const Home: NextPage = () => {
   const addCard = useStore((store) => store.addCard)
 
   useMount(init)
-
-  const onClickAddCard = (type: ICardType) => {
-    addCard(type)
-  }
 
   return (
     <div className={'h-screen bg-gray-100'}>
@@ -29,7 +24,7 @@ const Home: NextPage = () => {
           <Player key={player.id} player={player} />
         ))}
 
-        <button onClick={() => onClickAddCard('BRICK')}>Add BRICK</button>
+        <button onClick={() => addCard('BRICK')}>Add BRICK</button>
       </main>
     </div>
   )
