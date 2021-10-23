@@ -34,7 +34,7 @@ const Home: NextPage = () => {
   useKeyPress('4', () => addCard('BRICK'))
   useKeyPress('5', () => addCard('ORE'))
   useKeyPress(['x', 'e'], useSelectedCards)
-  useKeyPress(['backspace'], removeLastCard)
+  useKeyPress(['backspace', 'delete'], removeLastCard)
 
   return (
     <>
