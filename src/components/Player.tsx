@@ -3,19 +3,8 @@ import { useDebounceFn } from 'ahooks'
 import { useState } from 'react'
 import clsx from 'clsx'
 import { useStore } from 'src/store'
+import { defaultModalStyle } from 'src/utils/defaultModalStyle'
 import Modal from 'react-modal'
-
-const defaultModal = {
-  content: {
-    maxWidth: '20rem',
-    maxHeight: '20rem',
-    margin: 'auto',
-  },
-  overlay: {
-    zIndex: 10000,
-    backgroundColor: 'rgba(0,0,0,0.7)',
-  },
-}
 
 export const Player = ({ player }: { player: IPlayer }) => {
   const playerId = useStore((state) => state.playerId)
@@ -106,7 +95,7 @@ export const Player = ({ player }: { player: IPlayer }) => {
         ariaHideApp={false}
         isOpen={isMenuOpen}
         onRequestClose={() => setIsMenuOpen(false)}
-        style={defaultModal}
+        style={defaultModalStyle}
       >
         <div>
           <input

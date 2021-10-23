@@ -1,9 +1,13 @@
 import type { NextPage } from 'next'
+import { useState } from 'react'
+import { nanoid } from 'nanoid'
 import Head from 'next/head'
 import { Player } from 'src/components/Player'
 import { useStore } from 'src/store'
 import { CardType } from 'src/types'
 import { useMount, useKeyPress } from 'ahooks'
+import Modal from 'react-modal'
+import { defaultModalStyle } from 'src/utils/defaultModalStyle'
 
 const Home: NextPage = () => {
   const initGame = useStore((store) => store.initGame)
@@ -18,6 +22,8 @@ const Home: NextPage = () => {
   const isPlaying = useStore((store) =>
     store.players.find((p) => p.id === store.playerId),
   )
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useMount(initSubscription)
   useKeyPress('esc', deselectCards)
@@ -35,7 +41,7 @@ const Home: NextPage = () => {
           {players.map((player) => (
             <Player key={player.id} player={player} />
           ))}
-          <div className="flex justify-between items-center border-t border-gray-300 p-6 gap-3">
+          <div className="flex justify-between items-center bg-white border-t border-gray-200 p-6 gap-3">
             {selectedCardIds.length > 0 ? (
               <>
                 <button
@@ -74,9 +80,35 @@ const Home: NextPage = () => {
                     Select Player name to get started.
                   </div>
                 )}
-                <button onClick={initGame}>New Game</button>
+
+                <Modal
+                  isOpen={isMenuOpen}
+                  onRequestClose={() => setIsMenuOpen(false)}
+                  style={defaultModalStyle}
+                >
+                  <div>
+                    <button
+                      className="w-full my-4 bg-blue-500 text-white py-1 rounded shadow-lg"
+                      onClick={initGame}
+                    >
+                      New Game
+                    </button>
+                    <button
+                      className="w-full my-4 bg-blue-500 text-white py-1 rounded shadow-lg"
+                      onClick={() => window.open(`/?g=${nanoid()}`)}
+                    >
+                      New Room
+                    </button>
+                  </div>
+                </Modal>
               </>
             )}
+            <button
+              onClick={() => setIsMenuOpen(true)}
+              className="p-3 hover:bg-gray-200 rounded"
+            >
+              <span className="material-icons">menu</span>
+            </button>
           </div>
         </main>
       </div>

@@ -26,16 +26,25 @@ interface AppState {
   takeDevelopmentCard(): void
 }
 
-const gameId = 'test'
+const getGameId = () => {
+  if (typeof window === 'undefined') {
+    return 'test'
+  }
+
+  const params = new URLSearchParams(location.search)
+  const gameId = params.get('g') || 'test'
+  return gameId
+}
 
 export const useStore = create<AppState>((set, get) => ({
   playerId: '',
   players: [],
   selectedCardIds: [],
   developmentCardTypes: [],
+  gameId: '',
 
   initSubscription() {
-    onSnapshot(doc(db, 'games', gameId), (doc) => {
+    onSnapshot(doc(db, 'games', getGameId()), (doc) => {
       const remoteState = doc.data()
       if (remoteState) {
         set({
@@ -48,8 +57,8 @@ export const useStore = create<AppState>((set, get) => ({
   },
   async syncFireStore() {
     const state = get()
-    await setDoc(doc(db, 'games', gameId), {
-      id: gameId,
+    await setDoc(doc(db, 'games', getGameId()), {
+      id: getGameId(),
       players: state.players,
       developmentCardTypes: state.developmentCardTypes,
     })
@@ -60,9 +69,10 @@ export const useStore = create<AppState>((set, get) => ({
       return
     }
     const playerNum = Number(_playerNum)
+    const oldPlayers = get().players
     const players = Array.from({ length: playerNum }, (_, i) => ({
       id: nanoid(),
-      nickname: `Player ${i + 1}`,
+      nickname: oldPlayers[i]?.nickname || `Player ${i + 1}`, // `
       cards: [],
       developmentCards: [],
     }))
