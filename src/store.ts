@@ -24,6 +24,7 @@ interface AppState {
   stealCard(): void
   deselectCards(): void
   takeDevelopmentCard(): void
+  removeLastCard(): void
 }
 
 const getGameId = () => {
@@ -205,6 +206,16 @@ export const useStore = create<AppState>((set, get) => ({
       }),
     )
     get().syncFireStore()
+  },
+  removeLastCard() {
+    set(
+      produce((state: AppState) => {
+        const me = state.players.find((p) => p.id === get().playerId)
+        if (me) {
+          me.cards.splice(-1)
+        }
+      }),
+    )
   },
 }))
 

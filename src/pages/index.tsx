@@ -19,6 +19,7 @@ const Home: NextPage = () => {
   const stealCard = useStore((store) => store.stealCard)
   const deselectCards = useStore((store) => store.deselectCards)
   const takeDevelopmentCard = useStore((store) => store.takeDevelopmentCard)
+  const removeLastCard = useStore((store) => store.removeLastCard)
   const isPlaying = useStore((store) =>
     store.players.find((p) => p.id === store.playerId),
   )
@@ -27,6 +28,13 @@ const Home: NextPage = () => {
 
   useMount(initSubscription)
   useKeyPress('esc', deselectCards)
+  useKeyPress('1', () => addCard('WOOL'))
+  useKeyPress('2', () => addCard('GRAIN'))
+  useKeyPress('3', () => addCard('LUMBER'))
+  useKeyPress('4', () => addCard('BRICK'))
+  useKeyPress('5', () => addCard('ORE'))
+  useKeyPress(['x', 'e'], useSelectedCards)
+  useKeyPress(['backspace'], removeLastCard)
 
   return (
     <>
@@ -48,7 +56,7 @@ const Home: NextPage = () => {
                   className="p-2 bg-blue-500 text-white rounded-lg"
                   onClick={useSelectedCards}
                 >
-                  Use cards
+                  Use cards (e)
                 </button>
                 {selectedCardIds.length === 1 && (
                   <button
@@ -63,9 +71,10 @@ const Home: NextPage = () => {
               <>
                 {isPlaying ? (
                   <>
-                    {CardType.map((cardType) => (
+                    {CardType.map((cardType, i) => (
                       <button key={cardType} onClick={() => addCard(cardType)}>
                         <img src={`/images/${cardType}.png`} className="h-16" />
+                        <div className="hidden md:block">{i + 1}</div>
                       </button>
                     ))}
                     <button
