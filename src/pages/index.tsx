@@ -75,7 +75,7 @@ const Home: NextPage = () => {
                     {CardType.map((cardType, i) => (
                       <button key={cardType} onClick={() => addCard(cardType)}>
                         <img src={`/images/${cardType}.png`} className="h-16" />
-                        <div className="hidden md:block">{i + 1}</div>
+                        <div className="hidden md:block text-xs">({i + 1})</div>
                       </button>
                     ))}
                     <button

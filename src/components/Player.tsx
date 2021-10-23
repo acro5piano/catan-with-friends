@@ -25,15 +25,15 @@ export const Player = ({ player }: { player: IPlayer }) => {
     <div className={clsx('flex-1 relative p-6 ')}>
       <div className="flex p-2 items-center gap-3">
         <button
-          className="hover:bg-gray-200 p-2 rounded w-40 text-left"
+          className="hover:bg-gray-200 p-2 rounded w-40 text-left font-bold"
           onClick={() => setIsMenuOpen(true)}
         >
           {player.nickname}
+          {isMe && ' (you)'}
         </button>
         <div className="px-2 py-1 bg-gray-200 rounded-full text-xs">
           {player.cards.length}
         </div>
-        {isMe && <div>(you)</div>}
       </div>
       <div className="flex gap-4 py-2 overflow-x-scroll hide-scrollbar">
         {player.developmentCards.map((card) => (
