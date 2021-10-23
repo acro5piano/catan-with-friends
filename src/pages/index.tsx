@@ -2,17 +2,21 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Player } from 'src/components/Player'
 import { useStore } from 'src/store'
-import { useMount } from 'ahooks'
+import { useMount, useKeyPress } from 'ahooks'
 
 const Home: NextPage = () => {
   const initGame = useStore((store) => store.initGame)
   const initSubscription = useStore((store) => store.initSubscription)
   const players = useStore((store) => store.players)
+  const playerId = useStore((store) => store.playerId)
   const addCard = useStore((store) => store.addCard)
   const selectedCardIds = useStore((store) => store.selectedCardIds)
   const useSelectedCards = useStore((store) => store.useSelectedCards)
+  const stealCard = useStore((store) => store.stealCard)
+  const deselectCards = useStore((store) => store.deselectCards)
 
   useMount(initSubscription)
+  useKeyPress('esc', deselectCards)
 
   return (
     <>
@@ -28,13 +32,27 @@ const Home: NextPage = () => {
             <Player key={player.id} player={player} />
           ))}
           <div className="flex justify-between h-10">
-            {selectedCardIds.length > 0 ? (
-              <button
-                className="p-2 bg-blue-500 text-white rounded-lg"
-                onClick={useSelectedCards}
-              >
-                Use cards
-              </button>
+            {playerId === '' ? (
+              <div className="bg-yellow-400 text-yellow-800 p-2 w-full rounded">
+                Select Player name to get started.
+              </div>
+            ) : selectedCardIds.length > 0 ? (
+              <>
+                <button
+                  className="p-2 bg-blue-500 text-white rounded-lg"
+                  onClick={useSelectedCards}
+                >
+                  Use cards
+                </button>
+                {selectedCardIds.length === 1 && (
+                  <button
+                    className="p-2 bg-blue-500 text-white rounded-lg"
+                    onClick={stealCard}
+                  >
+                    Steal card
+                  </button>
+                )}
+              </>
             ) : (
               <>
                 <button onClick={() => addCard('BRICK')}>Add BRICK</button>
