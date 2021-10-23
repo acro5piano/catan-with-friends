@@ -14,7 +14,7 @@ interface AppState {
 
   // actions
   initSubscription(): void
-  initGame(num: 3 | 4): void
+  initGame(): void
   addCard(type: ICardType): void
   setPlayerId(playerId: string): void
   toggleSelectCard(cardId: string): void
@@ -54,10 +54,12 @@ export const useStore = create<AppState>((set, get) => ({
       developmentCardTypes: state.developmentCardTypes,
     })
   },
-  initGame(playerNum: 3 | 4) {
-    if (!confirm('are you sure?')) {
+  initGame() {
+    const _playerNum = prompt('Enter player number (3 or 4)')
+    if (_playerNum !== '3' && _playerNum !== '4') {
       return
     }
+    const playerNum = Number(_playerNum)
     const players = Array.from({ length: playerNum }, (_, i) => ({
       id: nanoid(),
       nickname: `Player ${i + 1}`,

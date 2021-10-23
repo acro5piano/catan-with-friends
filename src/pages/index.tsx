@@ -35,12 +35,8 @@ const Home: NextPage = () => {
           {players.map((player) => (
             <Player key={player.id} player={player} />
           ))}
-          <div className="flex justify-between items-center border-t border-gray-300 p-6">
-            {!isPlaying ? (
-              <div className="bg-yellow-400 text-yellow-800 p-2 w-full rounded">
-                Select Player name to get started.
-              </div>
-            ) : selectedCardIds.length > 0 ? (
+          <div className="flex justify-between items-center border-t border-gray-300 p-6 gap-3">
+            {selectedCardIds.length > 0 ? (
               <>
                 <button
                   className="p-2 bg-blue-500 text-white rounded-lg"
@@ -59,19 +55,26 @@ const Home: NextPage = () => {
               </>
             ) : (
               <>
-                {CardType.map((cardType) => (
-                  <button key={cardType} onClick={() => addCard(cardType)}>
-                    <img src={`/images/${cardType}.png`} className="h-16" />
-                  </button>
-                ))}
-                <button
-                  className="border border-red-700 rounded-full px-4 h-12"
-                  onClick={takeDevelopmentCard}
-                >
-                  DevCard
-                </button>
-                <button onClick={() => initGame(3)}>Init game(3)</button>
-                <button onClick={() => initGame(4)}>Init game(4)</button>
+                {isPlaying ? (
+                  <>
+                    {CardType.map((cardType) => (
+                      <button key={cardType} onClick={() => addCard(cardType)}>
+                        <img src={`/images/${cardType}.png`} className="h-16" />
+                      </button>
+                    ))}
+                    <button
+                      className="border border-red-700 rounded-full px-4 h-12"
+                      onClick={takeDevelopmentCard}
+                    >
+                      DevCard
+                    </button>
+                  </>
+                ) : (
+                  <div className="bg-yellow-400 text-yellow-800 p-2 flex-1 rounded">
+                    Select Player name to get started.
+                  </div>
+                )}
+                <button onClick={initGame}>New Game</button>
               </>
             )}
           </div>
