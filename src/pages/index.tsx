@@ -28,11 +28,12 @@ const Home: NextPage = () => {
 
   useMount(initSubscription)
   useKeyPress('esc', deselectCards)
-  useKeyPress('1', () => addCard('WOOL'))
-  useKeyPress('2', () => addCard('GRAIN'))
-  useKeyPress('3', () => addCard('LUMBER'))
-  useKeyPress('4', () => addCard('BRICK'))
+  useKeyPress('1', () => addCard('LUMBER'))
+  useKeyPress('2', () => addCard('BRICK'))
+  useKeyPress('3', () => addCard('WOOL'))
+  useKeyPress('4', () => addCard('GRAIN'))
   useKeyPress('5', () => addCard('ORE'))
+  useKeyPress('s', stealCard)
   useKeyPress(['x', 'e'], useSelectedCards)
   useKeyPress(['backspace', 'delete'], removeLastCard)
 
