@@ -47,10 +47,31 @@ export const Player = ({ player }: { player: IPlayer }) => {
         {isMe && <div>(you)</div>}
       </div>
       <div className="flex gap-4 py-2 overflow-x-scroll hide-scrollbar">
+        {player.developmentCards.map((card) => (
+          <button
+            onClick={() => toggleSelectCard(card.id)}
+            className="focus:outline-none"
+            key={card.id}
+            disabled={card.isUsed}
+          >
+            <div
+              key={card.id}
+              className={clsx(
+                'w-24 h-36 bg-white shadow-md p-3 rounded-lg',
+                selectedCardIds.includes(card.id) && 'bg-red-500',
+                card.isUsed && 'bg-gray-200',
+              )}
+            >
+              {isMe || card.isUsed ? card.type : '*'}
+              <div>{card.isUsed && '(used)'}</div>
+            </div>
+          </button>
+        ))}
         {player.cards.map((card) => (
           <button
             onClick={() => toggleSelectCard(card.id)}
             className="focus:outline-none"
+            key={card.id}
           >
             <div
               key={card.id}
@@ -65,6 +86,7 @@ export const Player = ({ player }: { player: IPlayer }) => {
         ))}
       </div>
       <Modal
+        ariaHideApp={false}
         isOpen={isMenuOpen}
         onRequestClose={() => setIsMenuOpen(false)}
         style={defaultModal}
@@ -79,7 +101,10 @@ export const Player = ({ player }: { player: IPlayer }) => {
           />
           <button
             className="my-4 w-full px-2 py-1 bg-blue-600 text-white rounded-lg shadow-lg"
-            onClick={() => setPlayerId(player.id)}
+            onClick={() => {
+              setPlayerId(player.id)
+              setIsMenuOpen(false)
+            }}
           >
             This is me
           </button>

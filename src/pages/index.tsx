@@ -8,12 +8,15 @@ const Home: NextPage = () => {
   const initGame = useStore((store) => store.initGame)
   const initSubscription = useStore((store) => store.initSubscription)
   const players = useStore((store) => store.players)
-  const playerId = useStore((store) => store.playerId)
   const addCard = useStore((store) => store.addCard)
   const selectedCardIds = useStore((store) => store.selectedCardIds)
   const useSelectedCards = useStore((store) => store.useSelectedCards)
   const stealCard = useStore((store) => store.stealCard)
   const deselectCards = useStore((store) => store.deselectCards)
+  const takeDevelopmentCard = useStore((store) => store.takeDevelopmentCard)
+  const isPlaying = useStore((store) =>
+    store.players.find((p) => p.id === store.playerId),
+  )
 
   useMount(initSubscription)
   useKeyPress('esc', deselectCards)
@@ -32,7 +35,7 @@ const Home: NextPage = () => {
             <Player key={player.id} player={player} />
           ))}
           <div className="flex justify-between h-10">
-            {playerId === '' ? (
+            {!isPlaying ? (
               <div className="bg-yellow-400 text-yellow-800 p-2 w-full rounded">
                 Select Player name to get started.
               </div>
@@ -60,6 +63,9 @@ const Home: NextPage = () => {
                 <button onClick={() => addCard('LUMBER')}>Add LUMBER</button>
                 <button onClick={() => addCard('ORE')}>Add ORE</button>
                 <button onClick={() => addCard('WOOL')}>Add WOOL</button>
+                <button onClick={takeDevelopmentCard}>
+                  Take development card
+                </button>
                 <button onClick={() => initGame(3)}>Init game(3)</button>
                 <button onClick={() => initGame(4)}>Init game(4)</button>
               </>
