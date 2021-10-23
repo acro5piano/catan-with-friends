@@ -181,6 +181,7 @@ export const useStore = create<AppState>((set, get) => ({
             )
             me.cards.push(card)
             state.selectedCardIds = []
+            me.selectedCardIds = []
           }
         }
       }),

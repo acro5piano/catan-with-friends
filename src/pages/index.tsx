@@ -34,7 +34,7 @@ const Home: NextPage = () => {
   useKeyPress('4', () => addCard('GRAIN'))
   useKeyPress('5', () => addCard('ORE'))
   useKeyPress('s', stealCard)
-  useKeyPress(['x', 'e'], useSelectedCards)
+  useKeyPress(['x', 'e', 'enter', 'return'], useSelectedCards)
   useKeyPress(['backspace', 'delete'], removeLastCard)
 
   return (
@@ -57,14 +57,14 @@ const Home: NextPage = () => {
                   className="p-2 bg-blue-500 text-white rounded-lg"
                   onClick={useSelectedCards}
                 >
-                  Use cards (e)
+                  Use cards (e / enter)
                 </button>
                 {selectedCardIds.length === 1 && (
                   <button
                     className="p-2 bg-blue-500 text-white rounded-lg"
                     onClick={stealCard}
                   >
-                    Steal card
+                    Steal card (e)
                   </button>
                 )}
               </>

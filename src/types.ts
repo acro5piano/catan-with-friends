@@ -1,4 +1,4 @@
-export const CardType = ['WOOL', 'GRAIN', 'LUMBER', 'BRICK', 'ORE'] as const
+export const CardType = ['LUMBER', 'BRICK', 'WOOL', 'GRAIN', 'ORE'] as const
 
 export type ICardType = typeof CardType[number]
 
