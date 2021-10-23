@@ -64,7 +64,7 @@ const Home: NextPage = () => {
                     className="p-2 bg-blue-500 text-white rounded-lg"
                     onClick={stealCard}
                   >
-                    Steal card (e)
+                    Steal card (s)
                   </button>
                 )}
               </>
