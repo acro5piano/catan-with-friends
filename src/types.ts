@@ -1,4 +1,6 @@
-export type ICardType = 'WOOL' | 'GRAIN' | 'LUMBER' | 'BRICK' | 'ORE'
+export const CardType = ['WOOL', 'GRAIN', 'LUMBER', 'BRICK', 'ORE'] as const
+
+export type ICardType = typeof CardType[number]
 
 export interface ICard {
   id: string

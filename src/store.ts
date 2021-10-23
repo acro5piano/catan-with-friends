@@ -55,6 +55,9 @@ export const useStore = create<AppState>((set, get) => ({
     })
   },
   initGame(playerNum: 3 | 4) {
+    if (!confirm('are you sure?')) {
+      return
+    }
     const players = Array.from({ length: playerNum }, (_, i) => ({
       id: nanoid(),
       nickname: `Player ${i + 1}`,

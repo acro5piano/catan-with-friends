@@ -33,7 +33,7 @@ export const Player = ({ player }: { player: IPlayer }) => {
   })
 
   return (
-    <div className={clsx('flex-1 relative')}>
+    <div className={clsx('flex-1 relative p-6 ')}>
       <div className="flex p-2 items-center gap-3">
         <button
           className="hover:bg-gray-200 p-2 rounded"
@@ -41,7 +41,7 @@ export const Player = ({ player }: { player: IPlayer }) => {
         >
           {player.nickname}
         </button>
-        <div className="px-2 py-1 bg-gray-200 rounded-lg">
+        <div className="px-2 py-1 bg-gray-200 rounded-lg text-xs">
           {player.cards.length}
         </div>
         {isMe && <div>(you)</div>}
@@ -57,13 +57,26 @@ export const Player = ({ player }: { player: IPlayer }) => {
             <div
               key={card.id}
               className={clsx(
-                'w-24 h-36 bg-white shadow-md p-3 rounded-lg',
-                selectedCardIds.includes(card.id) && 'bg-red-500',
+                'w-24 h-36 shadow-md rounded-lg relative',
+                selectedCardIds.includes(card.id) && 'border-4 border-red-700',
                 card.isUsed && 'bg-gray-200',
               )}
             >
-              {isMe || card.isUsed ? card.type : '*'}
-              <div>{card.isUsed && '(used)'}</div>
+              {isMe || card.isUsed ? (
+                <img src={`/images/${card.type}.png`} className="rounded" />
+              ) : (
+                <img src={`/images/CARD_BACK.png`} className="rounded" />
+              )}
+              {!isMe && !card.isUsed && (
+                <div className="absolute top-0 left-0 w-24 h-40 flex justify-center items-center bg-black opacity-50 rounded">
+                  <div className="text-white">DevCard</div>
+                </div>
+              )}
+              {card.isUsed && (
+                <div className="absolute top-0 left-0 w-24 h-40 flex justify-center items-center bg-black opacity-50 rounded">
+                  <div className="text-white">Used</div>
+                </div>
+              )}
             </div>
           </button>
         ))}
@@ -76,11 +89,15 @@ export const Player = ({ player }: { player: IPlayer }) => {
             <div
               key={card.id}
               className={clsx(
-                'w-24 h-36 bg-white shadow-md p-3 rounded-lg',
-                selectedCardIds.includes(card.id) && 'bg-red-500',
+                'w-24 h-36 shadow-md rounded-lg',
+                selectedCardIds.includes(card.id) && 'border-4 border-red-700',
               )}
             >
-              {isMe ? card.type : '*'}
+              {isMe ? (
+                <img src={`/images/${card.type}.png`} className="rounded" />
+              ) : (
+                <img src={`/images/CARD_BACK.png`} className="rounded" />
+              )}
             </div>
           </button>
         ))}
